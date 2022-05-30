@@ -16,10 +16,12 @@ import MenuItem from '@mui/material/MenuItem';
 // import { Link as MuiLink } from '@mui/material';
 import './Navbar.css';
 import { IUser } from '../../App';
+import DrawerMenu from '../DrawerMenu/DrawerMenu';
+import { Drawer } from '@mui/material';
 
 const pages = ['dashboard', 'meals', 'activities'];
 const settings = ['Profile', 'Settings', 'Logout'];
-const TITLE = 'HEALTHY TRACKER';
+const TITLE = 'H.track';
 
 interface INavbarProps {
     user: IUser,
@@ -75,7 +77,8 @@ const ResponsiveAppBar = (props: INavbarProps) => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
+              <DrawerMenu />
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -84,8 +87,8 @@ const ResponsiveAppBar = (props: INavbarProps) => {
               color="inherit"
             >
               <MenuIcon />
-            </IconButton>
-            <Menu
+            </IconButton> */}
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -108,7 +111,10 @@ const ResponsiveAppBar = (props: INavbarProps) => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
+            <Drawer>
+
+            </Drawer>
           </Box>
           <Typography
             variant="h5"
