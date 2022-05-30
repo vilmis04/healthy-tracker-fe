@@ -12,18 +12,19 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import AdbIcon from '@mui/icons-material/Adb';
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom';
 // import { Link as MuiLink } from '@mui/material';
 import './Navbar.css';
+import { IUser } from '../../App';
 
 const pages = ['dashboard', 'meals', 'activities'];
 const settings = ['Profile', 'Settings', 'Logout'];
+const TITLE = 'HEALTHY TRACKER';
 
 interface INavbarProps {
-    userLoggedIn?: {
-        name: string,
-        token?: string
-    }
+    user: IUser,
+    handleLogout: Function,
+    handleLogin: Function
 }
 
 const ResponsiveAppBar = (props: INavbarProps) => {
@@ -41,7 +42,13 @@ const ResponsiveAppBar = (props: INavbarProps) => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    const target = event.target as HTMLElement;
+    switch (target.textContent) {
+        case 'Logout':
+            props.handleLogout();
+            break;
+    }
     setAnchorElUser(null);
   };
 
@@ -64,7 +71,7 @@ const ResponsiveAppBar = (props: INavbarProps) => {
               textDecoration: 'none',
             }}
           >
-            HEALTHY TRACKER
+            {TITLE}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -103,7 +110,6 @@ const ResponsiveAppBar = (props: INavbarProps) => {
               ))}
             </Menu>
           </Box>
-          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
           <Typography
             variant="h5"
             noWrap
@@ -120,7 +126,7 @@ const ResponsiveAppBar = (props: INavbarProps) => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            {TITLE}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -134,12 +140,12 @@ const ResponsiveAppBar = (props: INavbarProps) => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            { props.userLoggedIn && 
+          <Box sx={{ flexGrow: 0, display: { xs: 'flex' }}}>
+            { props.user.loggedIn === true && 
                 <>
                     <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt={props.userLoggedIn.name} src="/static/images/avatar/2.jpg" />
+                        <Avatar alt={props.user.name} src="/static/images/avatar/2.jpg" />
                     </IconButton>
                     </Tooltip>
                     <Menu
@@ -159,22 +165,25 @@ const ResponsiveAppBar = (props: INavbarProps) => {
                     onClose={handleCloseUserMenu}
                     >
                     {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        <MenuItem key={setting} onClick={(event) => handleCloseUserMenu(event)}>
                         <Typography textAlign="center">{setting}</Typography>
                         </MenuItem>
                     ))}
                     </Menu>
                 </>
             }
-            {props.userLoggedIn === undefined &&
+            {props.user.loggedIn === false &&
                 <>
-                    <RouterLink to='/' >
-                        <Button
-                            // key='login'
-                            // onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >LOGIN</Button>
-                    </RouterLink>
+                    <Button
+                        // key='login'
+                        onClick={() => props.handleLogin()}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                    >LOGIN</Button>
+                    <Button
+                        // key='login'
+                        // onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                    >REGISTER</Button>
                 </>
             }
           </Box>

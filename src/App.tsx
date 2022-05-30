@@ -4,16 +4,41 @@ import Home from "./Components/Home/Home";
 import Navbar from "./Components/Navbar/Navbar";
 import { useState } from "react";
 
+export interface IUser {
+  loggedIn: boolean,
+  name?: string,
+  token?: string
+}
+
 function App() {
-  const [ user, setUser ] = useState({name: 'Mario'});
-  // const [ user, setUser ] = useState(undefined);
+  const [ user, setUser ]: [IUser, Function] = useState({
+    loggedIn: true,
+    name: 'Mario'});
+
+  const handleLogout = () => {
+    setUser({
+      loggedIn: false
+    });
+  }
+
+  const handleLogin = () => {
+    setUser({
+      loggedIn: true,
+      name: 'Mario'
+    });
+  }
 
   return (
     <>
-      <Navbar userLoggedIn={user} />
+      <Navbar
+        user={user}
+        handleLogout={handleLogout}
+        handleLogin={handleLogin}
+      />
       <Home />
     </>
   );
 }
 
 export default App;
+// export IUser;
