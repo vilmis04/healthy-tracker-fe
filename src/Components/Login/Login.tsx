@@ -1,8 +1,9 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { TextField } from '@mui/material';
+import { Container } from '@mui/material';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -14,6 +15,10 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
 };
 
 interface ILoginProps {
@@ -37,12 +42,33 @@ export default function Login(props: ILoginProps) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          Login to your account!
+        <Container sx={style}>
+          <Typography textAlign="center">Login to your account</Typography>
+          
           <form action="" method="post">
-            Please login
+            <TextField
+              fullWidth
+              // required
+              id="standard-required"
+              label="User name"
+              variant="standard"
+            />
+            <TextField
+              fullWidth
+              // required
+              id="standard-password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              variant="standard"
+            />
+            <Button 
+              fullWidth 
+              variant="outlined"
+              sx={{marginTop: '1rem'}}
+            >Login</Button>
           </form>
-        </Box>
+        </Container>
       </Modal>
     </div>
   );
