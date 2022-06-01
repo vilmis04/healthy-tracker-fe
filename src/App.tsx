@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Home from "./Components/Home/Home";
 import Navbar from "./Components/Navbar/Navbar";
 import { useState } from "react";
+import FloatingAddButton from "./Components/FloatingAddButton/FloatingAddButton";
 
 export interface IUser {
   loggedIn: boolean,
@@ -36,6 +37,7 @@ function App() {
         handleLogin={handleLogin}
       />
       <Home />
+      <FloatingAddButton />
     </>
   );
 }
