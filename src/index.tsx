@@ -11,10 +11,11 @@ ReactDOM.render(
     <BrowserRouter>
     <Routes>
         <Route path="/" element={<App />} >
-          <Route path='login' element={<Login />} />
-          <Route path='dashboard' element={<Dashboard />} />
+          {/* <Route path='login' element={<Login />} /> */}
+          {/* <Route path='dashboard' element={<Dashboard />} /> */}
         </Route>
-        {/* <Route path="add" element={<About />} /> */}
+        {/* <Route path="meals" element={<Meals />} />
+        <Route path="activities" element={<Activities />} /> */}
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

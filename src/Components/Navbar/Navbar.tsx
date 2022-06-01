@@ -14,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import './Navbar.css';
 import { IUser } from '../../App';
 import DrawerMenu from '../DrawerMenu/DrawerMenu';
-import { Drawer } from '@mui/material';
 
 const pages = ['dashboard', 'meals', 'activities'];
 const settings = ['Profile', 'Settings', 'Logout'];

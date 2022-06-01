@@ -1,9 +1,10 @@
+import * as React from 'react';
 import { Routes, Route, Link } from "react-router-dom";
 import Button from '@mui/material/Button';
-import Home from "./Components/Home/Home";
+// import Home from "./Components/Home/Home";
 import Navbar from "./Components/Navbar/Navbar";
-import { useState } from "react";
 import FloatingAddButton from "./Components/FloatingAddButton/FloatingAddButton";
+import Login from './Components/Login/Login';
 
 export interface IUser {
   loggedIn: boolean,
@@ -12,9 +13,11 @@ export interface IUser {
 }
 
 function App() {
-  const [ user, setUser ]: [IUser, Function] = useState({
+  const [ user, setUser ]: [IUser, Function] = React.useState({
     loggedIn: true,
     name: 'Mario'});
+
+  const [ loginFormOpen, setLoginFormOpen ] = React.useState(false);
 
   const handleLogout = () => {
     setUser({
@@ -23,10 +26,15 @@ function App() {
   }
 
   const handleLogin = () => {
+    setLoginFormOpen(true);
     setUser({
       loggedIn: true,
       name: 'Mario'
     });
+  }
+
+  const closeLoginForm = () => {
+    setLoginFormOpen(false);
   }
 
   return (
@@ -36,11 +44,10 @@ function App() {
         handleLogout={handleLogout}
         handleLogin={handleLogin}
       />
-      <Home />
-      <FloatingAddButton />
+      {loginFormOpen && <Login open={loginFormOpen} closeLoginForm={closeLoginForm} />}
+      {user.loggedIn && <FloatingAddButton />}
     </>
   );
 }
 
 export default App;
-// export IUser;
