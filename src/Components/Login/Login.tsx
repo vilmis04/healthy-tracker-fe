@@ -41,6 +41,10 @@ export default function Login(props: ILoginProps) {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{
+          maxWidth: 400,
+          margin: '0 auto'
+        }}
       >
         <Container sx={style}>
           <Typography textAlign="center">Login to your account</Typography>
