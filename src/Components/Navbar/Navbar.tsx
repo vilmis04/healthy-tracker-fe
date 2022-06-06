@@ -23,6 +23,7 @@ interface INavbarProps {
     user: IUser,
     handleLogout: Function,
     handleLogin: Function
+    handleRegister: Function
 }
 
 const ResponsiveAppBar = (props: INavbarProps) => {
@@ -146,7 +147,7 @@ const ResponsiveAppBar = (props: INavbarProps) => {
                     >LOGIN</Button>
                     <Button
                         // key='login'
-                        // onClick={handleCloseNavMenu}
+                        onClick={() => props.handleRegister()}
                         sx={{ my: 2, color: 'white', display: 'block' }}
                     >REGISTER</Button>
                 </>

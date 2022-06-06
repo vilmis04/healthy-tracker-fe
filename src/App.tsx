@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Navbar from "./Components/Navbar/Navbar";
 import FloatingAddButton from "./Components/FloatingAddButton/FloatingAddButton";
 import Login from './Components/Login/Login';
+import Register from './Components/Register/Register';
 
 export interface IUser {
   loggedIn: boolean,
@@ -18,6 +19,7 @@ function App() {
     name: 'Mario'});
 
   const [ loginFormOpen, setLoginFormOpen ] = React.useState(false);
+  const [ registerFormOpen, setRegisterFormOpen ] = React.useState(false);
 
   const handleLogout = () => {
     setUser({
@@ -33,6 +35,14 @@ function App() {
     });
   }
 
+  const handleRegister = () => {
+    setRegisterFormOpen(true);
+  }
+
+  const closeRegisterForm = () => {
+    setRegisterFormOpen(false);
+  }
+
   const closeLoginForm = () => {
     setLoginFormOpen(false);
   }
@@ -42,9 +52,11 @@ function App() {
       <Navbar
         user={user}
         handleLogout={handleLogout}
+        handleRegister={handleRegister}
         handleLogin={handleLogin}
       />
-      {loginFormOpen && <Login open={loginFormOpen} closeLoginForm={closeLoginForm} />}
+      {loginFormOpen && !registerFormOpen && <Login open={loginFormOpen} closeLoginForm={closeLoginForm} />}
+      {registerFormOpen && !loginFormOpen && <Register open={registerFormOpen} closeRegisterForm={closeRegisterForm} />}
       {user.loggedIn && <FloatingAddButton />}
     </>
   );
