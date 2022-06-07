@@ -39,6 +39,7 @@ export default function Register(props: IRegisterProps) {
   const [ passwordMatch, setPasswordMatch ] = React.useState(true);
 
   const invalidPasswordMessage = 'Password should be at least 8 symbols and contain at least one capital letter and number';
+  const navigate = useNavigate();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -127,8 +128,7 @@ export default function Register(props: IRegisterProps) {
         .then((res) => res.json())
         .then((res) => {
           if (res.ok) {
-          let navigate = useNavigate();
-          navigate('/', {replace: true});
+            navigate('/', {replace: true});
           }
         })
         .catch((err) => console.log(err));
