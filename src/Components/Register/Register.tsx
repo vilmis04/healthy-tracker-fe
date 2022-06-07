@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { TextField } from '@mui/material';
 import { Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -111,6 +112,29 @@ export default function Register(props: IRegisterProps) {
     setPasswordMatch(false);
   }
 
+  const validateAndCreateUser = () => {
+    if (validateUserName() && validatePassword() && checkMatch()) {
+      fetch('http://localhost:8000/users/create', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "userName": enteredUserName,
+          "passWord": enteredPassword
+        })
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.ok) {
+          let navigate = useNavigate();
+          navigate('/', {replace: true});
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
   return (
     <div>
       <Modal
@@ -147,7 +171,6 @@ export default function Register(props: IRegisterProps) {
               id="password_1"
               label="Password"
               type="password"
-              // autoComplete="current-password"
               variant="standard"
               onBlur={validatePassword}
               onChange={(event) => controlPassword(event.target.value)}
@@ -160,7 +183,6 @@ export default function Register(props: IRegisterProps) {
               id="password_2"
               label="Repeat password"
               type="password"
-              // autoComplete="current-password"
               variant="standard"
               onBlur={checkMatch}
               onChange={(event) => controlPasswordRepeat(event.target.value)}
@@ -169,6 +191,7 @@ export default function Register(props: IRegisterProps) {
               fullWidth 
               variant="outlined"
               sx={{marginTop: '1rem'}}
+              onClick={validateAndCreateUser}
             >Create account</Button>
           </form>
         </Container>
