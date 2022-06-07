@@ -27,10 +27,18 @@ interface IRegisterProps {
 }
 
 export default function Register(props: IRegisterProps) {
+
   const [ open, setOpen ] = React.useState(props.open);
   const [ userNameExists, setUserNameExists ] = React.useState(false);
   const [ enteredUserName, setEnteredUserName ] = React.useState('');
   const [ invalidUserName, setInvalidUserName ] = React.useState(false);
+  const [ enteredPassword, setEnteredPassword ] = React.useState('');
+  const [ enteredRepeatPassword, setEnteredRepeatPassword ] = React.useState('');
+  const [ invalidPassword, setInvalidPassword ] = React.useState(false);
+  const [ passwordMatch, setPasswordMatch ] = React.useState(true);
+
+  const invalidPasswordMessage = 'Password should be at least 8 symbols and contain at least one capital letter and number';
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
@@ -41,15 +49,22 @@ export default function Register(props: IRegisterProps) {
     setEnteredUserName(value);
   }
 
+  const controlPassword = (value: string) => {
+    setEnteredPassword(value);
+  }
+
+  const controlPasswordRepeat = (value: string) => {
+    setEnteredRepeatPassword(value);
+  }
+
   const testNameSymbols = () => {
     const regex = new RegExp(/^[0-9a-zA-Z]+$/g);
-    if (!regex.test(enteredUserName) && !invalidUserName) {
+    if (!regex.test(enteredUserName)) {
       setInvalidUserName(true);
       return false;
     } 
-    if (invalidUserName) {
-      setInvalidUserName(false);
-    }
+    
+    setInvalidUserName(false);
     return true;
   }
 
@@ -63,11 +78,29 @@ export default function Register(props: IRegisterProps) {
           } else if (!users.includes(enteredUserName) && userNameExists) {
             setUserNameExists(false);
           }
+          return true;
         })
         .catch((err) => console.log(err));
     }
-    
+    return false;
+  }
 
+  const validatePassword = () => {
+    const regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/g);
+    if (regex.test(enteredPassword)) {
+      setInvalidPassword(false);
+      return true;
+    }
+    setInvalidPassword(true);
+    return false;
+  }
+
+  const checkMatch = () => {
+    if (enteredPassword === enteredRepeatPassword) {
+      setPasswordMatch(true);
+      return true;
+    };
+    setPasswordMatch(false);
   }
 
   return (
@@ -100,21 +133,29 @@ export default function Register(props: IRegisterProps) {
             />
             <TextField
               fullWidth
+              error = {invalidPassword}
+              helperText = {invalidPassword? invalidPasswordMessage : ''}
               required
               id="password_1"
               label="Password"
               type="password"
               // autoComplete="current-password"
               variant="standard"
+              onBlur={validatePassword}
+              onChange={(event) => controlPassword(event.target.value)}
             />
             <TextField
               fullWidth
+              error = {!passwordMatch}
+              helperText = {passwordMatch? '' : 'Passwords do no match'}
               required
               id="password_2"
               label="Repeat password"
               type="password"
               // autoComplete="current-password"
               variant="standard"
+              onBlur={checkMatch}
+              onChange={(event) => controlPasswordRepeat(event.target.value)}
             />
             <Button 
               fullWidth 
