@@ -63,21 +63,29 @@ export default function Register(props: IRegisterProps) {
       setInvalidUserName(true);
       return false;
     } 
-    
+
     setInvalidUserName(false);
     return true;
   }
 
   const validateUserName = () => {
     if (testNameSymbols()) {
-      fetch('http://localhost:8000/users')
+      fetch('http://localhost:8000/users', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "userName": enteredUserName
+        })
+      })
         .then((res) => res.json())
-        .then((users) => {
-          if (users.includes(enteredUserName) && !userNameExists) {
+        .then((message) => {
+          if (!message.isFree) {
             setUserNameExists(true);
-          } else if (!users.includes(enteredUserName) && userNameExists) {
-            setUserNameExists(false);
+            return false;
           }
+          setUserNameExists(false);
           return true;
         })
         .catch((err) => console.log(err));
