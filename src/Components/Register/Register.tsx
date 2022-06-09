@@ -72,17 +72,18 @@ export default function Register(props: IRegisterProps) {
 
   const validateUserName = () => {
     if (testNameSymbols()) {
-      fetch('http://localhost:8000/users', {
+      fetch('http://localhost:8000/usernames', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "userName": enteredUserName
+          "user_name": enteredUserName
         })
       })
         .then((res) => res.json())
         .then((message) => {
+          console.log(message);
           if (!message.isFree) {
             setUserNameExists(true);
             return false;
@@ -121,8 +122,8 @@ export default function Register(props: IRegisterProps) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "userName": enteredUserName,
-          "passWord": enteredPassword
+          "user_name": enteredUserName,
+          "password": enteredPassword
         })
       })
         .then((res) => res.json())
